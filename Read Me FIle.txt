@@ -1,0 +1,128 @@
+🧩 1. Components Required
+Arduino UNO (Original/Compatible)
+2.4” TFT LCD Touch Shield (ILI9341 controller – compatible with Adafruit_TFTLCD)
+Micro SD Card (FAT32 formatted)
+USB Cable for UNO
+Computer with Arduino IDE installed
+
+🔌 2. Hardware Connections
+If using a 2.4” TFT Touch Shield (which mounts directly on UNO), then:
+
+⚠️ No jumper wires required — just plug the shield on top of the Arduino UNO.
+
+Shield Pin	Arduino UNO Pin
+A0 - A5	Analog pins A0-A5
+D2 - D9	Digital pins D2-D9
+D10 (SD_CS)	Digital pin 10
+Power & GND	5V & GND from UNO
+
+Note: Touchscreen, LCD control, and SD card share UNO pins internally via the shield.
+
+⚙️ 3. Install Required Libraries
+Open Arduino IDE and install the following libraries via Library Manager:
+
+Adafruit GFX Library
+
+Adafruit TFTLCD Library
+
+TouchScreen Library
+
+SD Library (comes pre-installed usually)
+
+💡 To install:
+Go to Sketch > Include Library > Manage Libraries... and search each name.
+
+🛠️ 4. Select Board and Port
+Go to Tools > Board > Arduino AVR Boards > Arduino Uno
+
+Go to Tools > Port > Select COM port (e.g., COM3 or COM9)
+
+If you’re unsure which port, unplug the UNO and plug it back — see which port appears.
+
+💾 5. Format SD Card
+Insert SD card into your PC
+
+Open Command Prompt
+
+Run:format X: /FS:FAT32 /Q
+
+Replace X: with your SD card drive letter.
+
+⚠️ Important:
+
+Use 16GB or lower card (UNO can’t handle >32GB well).
+
+Only use 24-bit BMP images, max resolution = 240x320
+
+📤 6. Upload the Code
+Connect Arduino via USB
+
+Paste or open your code in Arduino IDE
+
+Click the ✅ Verify button to compile
+
+Click the → Upload button
+
+7. Prepare SD Card Files
+Copy BMP images (e.g., 0.bmp, 1000.bmp, etc.) to the root of the SD card
+
+Also add input.txt (or the sketch will create it)
+
+File Structure:
+
+yaml
+Copy
+Edit
+SD Card/
+├── 0.bmp
+├── 1000.bmp
+├── 1001.bmp
+├── mainscreen.bmp
+└── input.txt
+🧪 8. Verify Touch Functionality
+Once uploaded:
+
+LCD will display an image
+
+Touch the top or bottom area to trigger:
+
+Top: Display photos
+
+Bottom: Display quotes
+
+Touch values (x, y) are printed on Serial Monitor
+
+Open Serial Monitor @9600 baud to debug
+
+🔄 9. If Touch Doesn’t Work
+Try the following:
+
+Add this after ts.getPoint():
+
+cpp
+Copy
+Edit
+pinMode(XM, OUTPUT);
+pinMode(YP, OUTPUT);
+digitalWrite(XM, LOW);
+digitalWrite(YP, LOW);
+Calibrate touch by running a sketch to read raw p.x, p.y, and update:
+
+cpp
+Copy
+Edit
+#define TS_MINX 176
+#define TS_MAXX 921
+#define TS_MINY 159
+#define TS_MAXY 884
+
+✅ Summary
+Step	Action
+1️⃣	Plug in TFT shield on Arduino UNO
+2️⃣	Format SD card to FAT32
+3️⃣	Install required libraries
+4️⃣	Upload BMP images & input.txt to SD card
+5️⃣	Select correct board & port in Arduino IDE
+6️⃣	Upload sketch
+7️⃣	Use Serial Monitor to view touch coordinates
+8️⃣	Adjust calibration if needed
